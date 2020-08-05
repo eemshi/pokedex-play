@@ -44,9 +44,10 @@ const POKEMON_MANY = gql`
   }
 `
 
-const Pokemon: React.FC<RouteComponentProps & { searchValue: string, clickLink: Function }> = ({
-  searchValue,
+const Pokemon: React.FC<RouteComponentProps & { clickLink: Function, filters: object[], searchValue: string }> = ({
   clickLink,
+  filters,
+  searchValue,
 }) => {
   const { loading, error, data } = useQuery(POKEMON_MANY, { variables: { searchValue } })
   const pokemonList:

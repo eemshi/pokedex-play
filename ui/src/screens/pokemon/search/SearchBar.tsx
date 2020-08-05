@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const SearchInput = styled.input`
+const Input = styled.input`
   width: 100%;
   padding: 0.5rem 0.75rem;
   background-color: #212529;
@@ -28,7 +28,7 @@ const SearchBar: React.FC<{onChange: (value: string) => void}> = ({ onChange }) 
   }
 
   return (
-    <SearchInput 
+    <Input 
       type="text" 
       name="name" 
       placeholder="Who's that Pokemon?"
