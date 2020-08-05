@@ -1,5 +1,6 @@
 import { ApolloServer, gql, IResolvers } from 'apollo-server'
 import sortBy from 'lodash/sortBy'
+import pickBy from 'lodash/pickBy'
 import find from 'lodash/find'
 import pokemon from './pokemon.json'
 
@@ -42,6 +43,28 @@ const typeDefs = gql`
   }
 `
 
+// fuzzy match helper functions
+
+const _isFuzzyMatch = (name: string, input: string[]) => {
+  if (!input.length) {
+    return true
+  }
+	return input.some((_, inputIndex: number) => _substringMatch(name, input, inputIndex, 3))
+}
+
+const _substringMatch = (name: string, input: string[], inputIndex: number, minCharMatch: number) => {
+  if (input.length < minCharMatch) {
+    return name.includes(input.join(''))
+  }
+	let matcher = '';
+	for (let i = 0; i < minCharMatch; i++) {
+		matcher += input[inputIndex + i] || '-'
+  }
+	return name.includes(matcher)
+}
+
+// resolvers
+
 const resolvers: IResolvers<any, any> = {
   Pokemon: {
     prevEvolutions(rawPokemon: Pokemon) {
@@ -64,8 +87,9 @@ const resolvers: IResolvers<any, any> = {
       _,
       { skip = 0, limit = 999, searchValue = '' }: { skip?: number; limit?: number; searchValue?: string }
     ): Pokemon[] {
-      console.log({pokemon})
-      return sortBy(pokemon, poke => parseInt(poke.id, 10)).slice(
+      const searchValueCharacters = searchValue.toLowerCase().split('')
+      const matches = pickBy(pokemon, poke => _isFuzzyMatch(poke.name.toLowerCase(), searchValueCharacters))
+      return sortBy(matches, poke => parseInt(poke.id, 10)).slice(
         skip,
         limit + skip
       )
