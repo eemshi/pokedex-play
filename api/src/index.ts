@@ -1,4 +1,5 @@
 import { ApolloServer, gql, IResolvers } from 'apollo-server'
+import difference from 'lodash/difference'
 import find from 'lodash/find'
 import pickBy from 'lodash/pickBy'
 import sortBy from 'lodash/sortBy'
@@ -40,7 +41,7 @@ const typeDefs = gql`
 
   type Query {
     pokemonTypes: [String]
-    pokemonMany(skip: Int, limit: Int, searchValue: String): [Pokemon!]!
+    pokemonMany(skip: Int, limit: Int, searchValue: String, types: [String], weaknesses: [String]): [Pokemon!]!
     pokemonOne(id: ID!): Pokemon
   }
 `
@@ -93,11 +94,22 @@ const resolvers: IResolvers<any, any> = {
     },
     pokemonMany(
       _,
-      { skip = 0, limit = 999, searchValue = '' }: { skip?: number; limit?: number; searchValue?: string }
+      { skip = 0, limit = 999, searchValue = '', types = [], weaknesses = [] }: { 
+        skip?: number; 
+        limit?: number; 
+        searchValue?: string;
+        types?: string[];
+        weaknesses?: string[];
+      }
     ): Pokemon[] {
-      const searchValueCharacters = searchValue.toLowerCase().split('')
-      const matches = pickBy(pokemon, poke => _isFuzzyMatch(poke.name.toLowerCase(), searchValueCharacters))
-      return sortBy(matches, poke => parseInt(poke.id, 10)).slice(
+      const searchInput = searchValue.toLowerCase().split('')
+      const searchResults = pickBy(pokemon, poke => _isFuzzyMatch(poke.name.toLowerCase(), searchInput))
+      const filtered = pickBy(
+        searchResults, 
+        result => difference(types, result.types).length === 0 && 
+          difference(weaknesses, result.weaknesses).length === 0
+        )
+      return sortBy(filtered, poke => parseInt(poke.id, 10)).slice(
         skip,
         limit + skip
       )

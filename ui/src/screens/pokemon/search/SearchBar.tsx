@@ -31,7 +31,7 @@ const SearchBar: React.FC<{onChange: (value: string) => void}> = ({ onChange }) 
     <Input 
       type="text" 
       name="name" 
-      placeholder="Who's that Pokemon?"
+      placeholder="Search..."
       onChange={handleInputChange}
     />
   )

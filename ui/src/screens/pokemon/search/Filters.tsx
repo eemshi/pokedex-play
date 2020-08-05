@@ -14,8 +14,9 @@ const Container = styled.section`
 const FilterGroup = styled.div`
   height: 25vh;
   overflow: scroll;
-  margin-bottom: 20px;
-  padding-right: 15px;
+  margin: 5px 0 20px 0;
+  padding: 5px 15px 5px 5px;
+  border: 1px solid rgba(0, 0, 0, .5);
 
   ::-webkit-scrollbar {
     -webkit-appearance: none;
@@ -28,7 +29,7 @@ const FilterGroup = styled.div`
   }
   ::-webkit-scrollbar-thumb {
       border-radius: 8px;
-      border: 1px solid white; /* should match background, can't be transparent */
+      border: 1px solid #22B1C7;
       background-color: rgba(0, 0, 0, .5);
   }
 `
@@ -50,13 +51,13 @@ const Filters: React.FC<{onChange: (checked: boolean, filterName: string, filter
 
   return (
     <Container>
-      <p>TYPES</p>
+      TYPES
       <FilterGroup>
         {pokemonTypes.map((type: string) => 
           <Checkbox key={`type-${type}`} label={type} onToggle={checked => onChange(checked, type, 'type')} />
         )}
       </FilterGroup>
-      <p>WEAKNESSES</p>
+      WEAKNESSES
       <FilterGroup>
         {pokemonTypes.map((type: string) => 
           <Checkbox key={`weakness-${type}`} label={type} onToggle={checked => onChange(checked, type, 'weakness')} />
