@@ -1,7 +1,8 @@
 import { ApolloServer, gql, IResolvers } from 'apollo-server'
-import sortBy from 'lodash/sortBy'
-import pickBy from 'lodash/pickBy'
 import find from 'lodash/find'
+import pickBy from 'lodash/pickBy'
+import sortBy from 'lodash/sortBy'
+import values from 'lodash/values'
 import pokemon from './pokemon.json'
 
 interface Pokemon {
@@ -38,6 +39,7 @@ const typeDefs = gql`
   }
 
   type Query {
+    pokemonTypes: [String]
     pokemonMany(skip: Int, limit: Int, searchValue: String): [Pokemon!]!
     pokemonOne(id: ID!): Pokemon
   }
@@ -83,6 +85,12 @@ const resolvers: IResolvers<any, any> = {
     },
   },
   Query: {
+    pokemonTypes(): string[] {
+      const pokeList = values(pokemon)
+      return pokeList.reduce((types: string[], poke) => {
+        return [...new Set([...types, ...poke.types])]
+      }, [])
+    },
     pokemonMany(
       _,
       { skip = 0, limit = 999, searchValue = '' }: { skip?: number; limit?: number; searchValue?: string }
