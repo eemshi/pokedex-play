@@ -9,7 +9,11 @@ const Search: React.FC<RouteComponentProps & ISearchProps> = ({ clickLink }) => 
   const [types, setTypes] = useState<string[]>([])
   const [weaknesses, setWeaknesses] = useState<string[]>([])
 
-  const _getUpdatedList = (list: string[], item: string, add: boolean = true) => {
+  const _getUpdatedList = (
+    list: string[], 
+    item: string, 
+    add: boolean = true
+  ) => {
     return add ? [...list, item] : list.filter(x => x !== item)
   }
 

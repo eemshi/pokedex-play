@@ -41,7 +41,13 @@ const typeDefs = gql`
 
   type Query {
     pokemonTypes: [String]
-    pokemonMany(skip: Int, limit: Int, searchValue: String, types: [String], weaknesses: [String]): [Pokemon!]!
+    pokemonMany(
+      skip: Int, 
+      limit: Int, 
+      searchValue: String, 
+      types: [String], 
+      weaknesses: [String]
+    ): [Pokemon!]!
     pokemonOne(id: ID!): Pokemon
   }
 `
@@ -52,10 +58,17 @@ const _isFuzzyMatch = (name: string, input: string[]) => {
   if (!input.length) {
     return true
   }
-	return input.some((_, inputIndex: number) => _substringMatch(name, input, inputIndex, 3))
+  return input.some((_, inputIndex: number) => 
+    _substringMatch(name, input, inputIndex, 3)
+  )
 }
 
-const _substringMatch = (name: string, input: string[], inputIndex: number, minCharMatch: number) => {
+const _substringMatch = (
+  name: string, 
+  input: string[], 
+  inputIndex: number, 
+  minCharMatch: number
+) => {
   if (input.length < minCharMatch) {
     return name.includes(input.join(''))
   }
@@ -103,12 +116,13 @@ const resolvers: IResolvers<any, any> = {
       }
     ): Pokemon[] {
       const searchInput = searchValue.toLowerCase().split('')
-      const searchResults = pickBy(pokemon, poke => _isFuzzyMatch(poke.name.toLowerCase(), searchInput))
-      const filtered = pickBy(
-        searchResults, 
-        result => difference(types, result.types).length === 0 && 
-          difference(weaknesses, result.weaknesses).length === 0
-        )
+      const searchResults = pickBy(pokemon, poke => 
+        _isFuzzyMatch(poke.name.toLowerCase(), searchInput)
+      )
+      const filtered = pickBy(searchResults, result => 
+        difference(types, result.types).length === 0 && 
+        difference(weaknesses, result.weaknesses).length === 0
+      )
       return sortBy(filtered, poke => parseInt(poke.id, 10)).slice(
         skip,
         limit + skip
