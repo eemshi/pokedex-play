@@ -54,13 +54,21 @@ const Filters: React.FC<{onChange: (checked: boolean, filterName: string, filter
       TYPES
       <FilterGroup>
         {pokemonTypes.map((type: string) => 
-          <Checkbox key={`type-${type}`} label={type} onToggle={checked => onChange(checked, type, 'type')} />
+          <Checkbox 
+            key={`type-${type}`} 
+            label={type} 
+            onToggle={checked => onChange(checked, type, 'type')} 
+          />
         )}
       </FilterGroup>
       WEAKNESSES
       <FilterGroup>
         {pokemonTypes.map((type: string) => 
-          <Checkbox key={`weakness-${type}`} label={type} onToggle={checked => onChange(checked, type, 'weakness')} />
+          <Checkbox 
+            key={`weakness-${type}`} 
+            label={type} 
+            onToggle={checked => onChange(checked, type, 'weakness')} 
+          />
         )}
       </FilterGroup>
     </Container>

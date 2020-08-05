@@ -104,6 +104,7 @@ const ID: React.FC<
         )}
         {pokemon.prevEvolutions.map(prevEvolution => (
           <Link
+            key={prevEvolution.id}
             onMouseDown={clickLink as any}
             style={{
               display: 'inline-flex',
@@ -122,6 +123,7 @@ const ID: React.FC<
         )}
         {pokemon.nextEvolutions.map(nextEvolution => (
           <Link
+            key={nextEvolution.id}
             onMouseDown={clickLink as any}
             style={{
               display: 'inline-flex',
