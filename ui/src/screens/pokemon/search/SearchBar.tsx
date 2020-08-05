@@ -21,8 +21,8 @@ const Input = styled.input`
   }
 `
 
-const SearchBar: React.FC<{onChange: (value: string) => void}> = ({ onChange }) => {
-  
+const SearchBar: React.FC<ISearchBarProps> = ({ onChange }) => {
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value)
   }
@@ -38,3 +38,7 @@ const SearchBar: React.FC<{onChange: (value: string) => void}> = ({ onChange }) 
 }
 
 export default SearchBar
+
+interface ISearchBarProps { 
+  onChange: (value: string) => void 
+}

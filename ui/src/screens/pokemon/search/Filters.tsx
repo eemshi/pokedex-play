@@ -38,7 +38,7 @@ const POKEMON_TYPES = gql`
   query { pokemonTypes }
 `
 
-const Filters: React.FC<{onChange: (checked: boolean, filterName: string, filterType: string) => void}> = ({ onChange }) => {
+const Filters: React.FC<IFiltersProps> = ({ onChange }) => {
   const { loading, error, data } = useQuery(POKEMON_TYPES)
   const pokemonTypes = data?.pokemonTypes
 
@@ -76,3 +76,7 @@ const Filters: React.FC<{onChange: (checked: boolean, filterName: string, filter
 }
 
 export default Filters
+
+interface IFiltersProps { 
+  onChange: (checked: boolean, filterName: string, filterType: string) => void 
+}

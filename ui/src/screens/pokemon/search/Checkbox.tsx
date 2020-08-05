@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 import { Checkbox as NesCheckbox } from 'nes-react'
 
-const Checkbox: React.FC<{ label: string, onToggle: (selected: boolean) => void }> = ({ 
-  label, 
-  onToggle 
-}) => {
+const Checkbox: React.FC<ICheckboxProps> = ({ label, onToggle }) => {
   const [checked, setChecked] = useState(false)
 
   const handleToggle = (updated: boolean) => {
@@ -18,3 +15,8 @@ const Checkbox: React.FC<{ label: string, onToggle: (selected: boolean) => void 
 }
 
 export default Checkbox
+
+interface ICheckboxProps {
+  label: string, 
+  onToggle: (selected: boolean) => void
+}

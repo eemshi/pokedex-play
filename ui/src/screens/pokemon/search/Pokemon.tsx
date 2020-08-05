@@ -44,7 +44,7 @@ const POKEMON_MANY = gql`
   }
 `
 
-const Pokemon: React.FC<RouteComponentProps & { clickLink: Function, searchValue: string, types: string[], weaknesses: string[] }> = ({
+const Pokemon: React.FC<RouteComponentProps & IPokemonProps> = ({
   clickLink,
   searchValue,
   types,
@@ -79,3 +79,10 @@ const Pokemon: React.FC<RouteComponentProps & { clickLink: Function, searchValue
 }
 
 export default Pokemon
+
+interface IPokemonProps { 
+  clickLink: Function, 
+  searchValue: string, 
+  types: string[], 
+  weaknesses: string[] 
+}
