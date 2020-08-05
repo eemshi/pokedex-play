@@ -9,15 +9,19 @@ const Search: React.FC<RouteComponentProps & ISearchProps> = ({ clickLink }) => 
   const [types, setTypes] = useState<string[]>([])
   const [weaknesses, setWeaknesses] = useState<string[]>([])
 
-  const _updatedList = (list: string[], item: string, add: boolean = true) => {
+  const _getUpdatedList = (list: string[], item: string, add: boolean = true) => {
     return add ? [...list, item] : list.filter(x => x !== item)
   }
 
+  // TODO: make this whole thing more pure function like
   const handleFilterChange = (checked: boolean, filterName: string, filterType: string) => {
-    if (filterType === 'type') {
-      setTypes(_updatedList(types, filterName, checked))
-    } else if (filterType === 'weakness') {
-      setWeaknesses(_updatedList(weaknesses, filterName, checked))
+    switch (filterType) {
+      case 'type':
+        setTypes(_getUpdatedList(types, filterName, checked))
+        break
+      case 'weakness':
+        setWeaknesses(_getUpdatedList(weaknesses, filterName, checked))
+        break
     }
   }
 
