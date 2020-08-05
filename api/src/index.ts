@@ -37,7 +37,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    pokemonMany(skip: Int, limit: Int): [Pokemon!]!
+    pokemonMany(skip: Int, limit: Int, searchValue: String): [Pokemon!]!
     pokemonOne(id: ID!): Pokemon
   }
 `
@@ -62,8 +62,9 @@ const resolvers: IResolvers<any, any> = {
   Query: {
     pokemonMany(
       _,
-      { skip = 0, limit = 999 }: { skip?: number; limit?: number }
+      { skip = 0, limit = 999, searchValue = '' }: { skip?: number; limit?: number; searchValue?: string }
     ): Pokemon[] {
+      console.log({pokemon})
       return sortBy(pokemon, poke => parseInt(poke.id, 10)).slice(
         skip,
         limit + skip

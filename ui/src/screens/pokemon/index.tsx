@@ -1,13 +1,13 @@
 import React from 'react'
 import { Router, RouteComponentProps } from '@reach/router'
-import Pokemon from './Pokemon'
+import Search from './search'
 import ID from './id'
 
 const Screens: React.FC<RouteComponentProps & { clickLink: Function }> = ({
   clickLink,
 }) => (
   <Router style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-    <Pokemon clickLink={clickLink} path="/" />
+    <Search clickLink={clickLink} path="/" />
     <ID clickLink={clickLink} path=":id" />
   </Router>
 )
